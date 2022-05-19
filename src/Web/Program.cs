@@ -16,8 +16,14 @@ using Microsoft.eShopWeb.Web;
 using Microsoft.eShopWeb.Web.Configuration;
 using Microsoft.eShopWeb.Web.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//builder.Configuration.AddAzureKeyVault(
+//    //new Uri("https://eshop01.vault.azure.net/"),
+//    new Uri(builder.Configuration.GetSection("KeyVault").Value),
+//    new DefaultAzureCredential());
 
 builder.Logging.AddConsole();
 
@@ -93,6 +99,7 @@ builder.Services.AddScoped<HttpService>();
 builder.Services.AddBlazorServices();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+//builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]);
 
 var app = builder.Build();
 

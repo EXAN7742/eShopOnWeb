@@ -47,6 +47,8 @@ builder.Services.AddSingleton<IUriComposer>(new UriComposer(builder.Configuratio
 builder.Services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
 builder.Services.AddScoped<ITokenClaimsService, IdentityTokenClaimService>();
 
+builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]);
+
 var configSection = builder.Configuration.GetRequiredSection(BaseUrlConfiguration.CONFIG_NAME);
 builder.Services.Configure<BaseUrlConfiguration>(configSection);
 var baseUrlConfig = configSection.Get<BaseUrlConfiguration>();
@@ -77,7 +79,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: CORS_POLICY,
                       builder =>
                       {
-                          builder.WithOrigins(baseUrlConfig.WebBase.Replace("host.docker.internal", "localhost").TrimEnd('/'));
+                          builder.WithOrigins("https://eshopmy01.azurewebsites.net");
                           builder.AllowAnyMethod();
                           builder.AllowAnyHeader();
                       });

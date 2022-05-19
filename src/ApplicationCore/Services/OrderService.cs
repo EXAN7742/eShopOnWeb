@@ -6,6 +6,10 @@ using Microsoft.eShopWeb.ApplicationCore.Entities.BasketAggregate;
 using Microsoft.eShopWeb.ApplicationCore.Entities.OrderAggregate;
 using Microsoft.eShopWeb.ApplicationCore.Interfaces;
 using Microsoft.eShopWeb.ApplicationCore.Specifications;
+using System.Net.Http;
+using System;
+using System.Text.Json;
+using Azure.Messaging.ServiceBus;
 
 namespace Microsoft.eShopWeb.ApplicationCore.Services;
 
@@ -47,6 +51,34 @@ public class OrderService : IOrderService
         }).ToList();
 
         var order = new Order(basket.BuyerId, shippingAddress, items);
+
+        //Call AzureFunction
+        using (var clientH = new HttpClient())
+        {
+            clientH.BaseAddress = new Uri("https://eshopfunc.azurewebsites.net");
+            //client.BaseAddress = new Uri("http://localhost:7071");
+            var content = new System.Net.Http.StringContent(JsonSerializer.Serialize(order), System.Text.Encoding.UTF8, "application/json");
+            var result = await clientH.PostAsync("/api/OrderToCosmos?", content);
+        }
+
+        //__ Add order to azure service bus
+        const string ServiceBusConnectionString = "Endpoint=sb://eshopsb.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=zcC7mafLEU8cKqYG+gkDuR27hWeS5nUgH2kD9i+gldE=";
+        const string QueueName = "orders";
+
+        await using var client = new ServiceBusClient(ServiceBusConnectionString);
+
+        await using ServiceBusSender sender = client.CreateSender(QueueName);
+        try
+        {
+            var content = JsonSerializer.Serialize(order);
+            var message = new ServiceBusMessage(content);
+            await sender.SendMessageAsync(message);
+        }
+        finally
+        {
+            await sender.DisposeAsync();
+            await client.DisposeAsync();
+        }
 
         await _orderRepository.AddAsync(order);
     }

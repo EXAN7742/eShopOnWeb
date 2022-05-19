@@ -38,7 +38,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorAdmin", "src\BlazorAd
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorShared", "src\BlazorShared\BlazorShared.csproj", "{715CF7AF-A1EE-40A6-94A0-8DA3F3B2CAE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PublicApiIntegrationTests", "tests\PublicApiIntegrationTests\PublicApiIntegrationTests.csproj", "{D53EF010-8F8C-4337-A059-456E19D8AE63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PublicApiIntegrationTests", "tests\PublicApiIntegrationTests\PublicApiIntegrationTests.csproj", "{D53EF010-8F8C-4337-A059-456E19D8AE63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,7 +71,6 @@ Global
 		{7EFB5482-F942-4C3D-94B0-9B70596E6D0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EFB5482-F942-4C3D-94B0-9B70596E6D0A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1FCBE191-34FE-4B2E-8915-CA81553958AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1FCBE191-34FE-4B2E-8915-CA81553958AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FCBE191-34FE-4B2E-8915-CA81553958AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FCBE191-34FE-4B2E-8915-CA81553958AD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B5E4F33C-4667-4A55-AF6A-740F84C4CF3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
